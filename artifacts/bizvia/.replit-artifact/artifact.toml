@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "BizVia"
+description = "A polished GovTech frontend prototype that helps Indian entrepreneurs discover, prepare, submit, track, and maintain business approvals through one guided journey."
+version = "1.0.0"
+id = "artifacts/bizvia"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18545
+
+[services.development]
+run = "pnpm --filter @workspace/bizvia run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/bizvia", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/bizvia/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18545"
+BASE_PATH = "/"
