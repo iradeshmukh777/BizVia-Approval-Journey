@@ -94,7 +94,7 @@ export function Login() {
         <form className="mt-8 space-y-5" onSubmit={(event) => {
           event.preventDefault();
           const email = new FormData(event.currentTarget).get('email');
-          enterBusinessWorkspace('/dashboard', typeof email === 'string' ? email : undefined);
+          enterBusinessWorkspace('/onboarding', typeof email === 'string' ? email : undefined);
         }}>
           <label className="block text-sm font-bold text-[hsl(var(--primary))]">Work email
             <input name="email" type="email" defaultValue="aarav@acmefoods.in" className="mt-2 w-full rounded-xl border border-[hsl(var(--input))] bg-[hsl(var(--card))] px-4 py-3 text-sm outline-none transition focus:border-[hsl(var(--primary))] focus:ring-4 focus:ring-[hsl(var(--primary)/.08)]" data-testid="input-login-email" />
