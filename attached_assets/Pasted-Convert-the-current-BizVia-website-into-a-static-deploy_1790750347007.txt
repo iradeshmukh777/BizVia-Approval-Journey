@@ -1,0 +1,72 @@
+Convert the current BizVia website into a static, deployment-ready frontend that can be deployed directly on both Vercel and Netlify.
+
+EXECUTION RULES (READ FIRST):
+- Do NOT ask me any questions. Make reasonable assumptions and proceed until the end.
+- Work in this order: (1) inspect project structure, (2) make the static conversion, (3) run npm install and npm run build and fix all errors, (4) then do the authentication audit.
+- Do NOT delete any backend/server code. Move it to a /backend-reference folder (or leave it unused) so nothing is lost.
+- Keep the existing demo flow (login -> dashboard -> approvals -> tracking etc.) fully working using mock/demo data.
+
+IMPORTANT:
+- Do NOT redesign the website.
+- Do NOT remove or change the existing UI, pages, styling, navigation, content, or demo flow unless required for static deployment.
+- Preserve the current BizEase look and functionality as much as possible.
+- This is a frontend prototype for a hackathon, so keep the existing demo experience working.
+
+STATIC DEPLOYMENT REQUIREMENTS:
+1. Make the project fully deployable on Vercel and Netlify.
+2. Remove any dependency on Replit-specific backend/server functionality if it is not required for the frontend demo.
+3. Do not require a custom backend server just to run the frontend.
+4. If authentication is connected to a backend/database, do NOT delete it blindly. Identify how it works and clearly separate it from the static frontend.
+5. For the demo, use mock authentication (localStorage-based session) with two demo roles: Business and Government Officer.
+6. Use environment variables (VITE_ prefix if Vite) for any API keys or external config. Never hardcode secrets. Add a .env.example file.
+7. Make sure npm install and npm run build work. Actually run them and show the result.
+8. Add vercel.json, netlify.toml and public/_redirects with SPA fallback so refreshing /login, /dashboard, /approvals, /tracking etc. does not give a 404.
+9. Do not introduce unnecessary dependencies.
+10. Set the correct output directory (e.g., dist) in both config files.
+
+AUTHENTICATION FILE AUDIT:
+After the changes, inspect the actual project and list ALL files responsible for: Login, Signup/registration, Logout, Authentication state, Protected/private routes, Session/token handling, User role handling (Business / Government Officer), Supabase/Firebase/any other auth service, Auth-related API calls, Auth-related context/hooks/components.
+
+For every auth-related file give:
+1. File path
+2. What it does
+3. Required for static prototype? (Yes/No)
+4. Depends on backend/database/external auth service? (Yes/No)
+
+Also identify: main entry file, routing file, auth provider/context, login page, signup page, protected route component, dashboard entry, Supabase/Firebase config file (if present), and env/config files related to auth.
+
+Give exact filenames and paths from the real project, not a general explanation.
+Mark anything dependent on the Replit backend as: REPLIT BACKEND DEPENDENCY
+
+At the end, provide this exact summary:
+
+AUTHENTICATION FILES
+--------------------
+Login:
+Signup:
+Logout:
+Auth State:
+Protected Routes:
+Session/Token:
+Role Management:
+Auth Service:
+Auth Configuration:
+Environment Variables:
+
+DEPLOYMENT FILES
+----------------
+Package:
+Build Configuration:
+Vercel Configuration:
+Netlify Configuration:
+Routing Configuration:
+Main Entry:
+
+BUILD CHECK
+-----------
+npm install:
+npm run build:
+Vercel deployment: (config verified only / not actually deployed)
+Netlify deployment: (config verified only / not actually deployed)
+
+Do not claim the project is deployment-ready unless you have actually run the build and checked the configs.
