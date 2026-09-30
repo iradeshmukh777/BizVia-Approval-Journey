@@ -1,0 +1,7 @@
+[build]
+  base = "artifacts/bizvia"
+  command = "npm run build"
+  publish = "dist/public"
+
+[build.environment]
+  NODE_VERSION = "22.12.0"

@@ -1,0 +1,1 @@
+- [Standalone npm deployments](standalone-npm-deployments.md) — Generate and verify npm lockfiles outside pnpm-linked modules in this monorepo.

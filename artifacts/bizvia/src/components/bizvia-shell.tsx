@@ -1,6 +1,7 @@
-import { Bell, ChevronRight, ClipboardCheck, FileCheck2, Home, Map, Menu, Route, X } from 'lucide-react';
+import { Bell, ChevronRight, ClipboardCheck, FileCheck2, Home, LogOut, Map, Menu, Route, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
+import { clearDemoSession, readDemoSession } from '@/lib/demo-auth';
 
 type ShellProps = { children: React.ReactNode; title?: string; eyebrow?: string };
 
@@ -40,6 +41,7 @@ export function AppShell({ children, title = 'Overview', eyebrow = 'Your busines
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notifications, setNotifications] = useState(false);
   const [location, setLocation] = useLocation();
+  const session = readDemoSession();
   return <div className="min-h-[100dvh] bg-[hsl(var(--background))]">
     <aside className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-[hsl(var(--sidebar))] px-4 py-5 text-[hsl(var(--sidebar-foreground))] transition-transform lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <div className="mb-9 flex items-center justify-between px-2">
@@ -77,8 +79,9 @@ export function AppShell({ children, title = 'Overview', eyebrow = 'Your busines
             <Bell className="h-[18px] w-[18px]" /><span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-[hsl(var(--accent))]" />
           </button>
           <div className="hidden h-8 w-px bg-[hsl(var(--border))] sm:block" />
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-[hsl(var(--secondary))] text-xs font-extrabold text-[hsl(var(--foreground))]">AS</div>
-          <div className="hidden sm:block"><p className="text-xs font-bold text-[hsl(var(--primary))]">Aarav Shah</p><p className="text-[11px] text-[hsl(var(--muted-foreground))]">Founder</p></div>
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-[hsl(var(--secondary))] text-xs font-extrabold text-[hsl(var(--foreground))]">{session?.role === 'government-officer' ? 'GO' : 'AS'}</div>
+          <div className="hidden sm:block"><p className="text-xs font-bold text-[hsl(var(--primary))]">{session?.name || 'Aarav Shah'}</p><p className="text-[11px] text-[hsl(var(--muted-foreground))]">{session?.role === 'government-officer' ? 'Government Officer · Demo' : 'Founder'}</p></div>
+          {session && <button className="rounded-xl p-2 text-[hsl(var(--muted-foreground))] transition-colors hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--primary))]" onClick={() => { clearDemoSession(); setLocation('/login'); }} aria-label="Sign out of demo session" title="Sign out" data-testid="button-sign-out"><LogOut className="h-4 w-4" /></button>}
           {notifications && <div className="absolute right-0 top-12 z-50 w-80 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-[0_18px_50px_hsl(var(--foreground)/.12)]">
             <div className="flex items-center justify-between"><h3 className="display text-sm font-extrabold text-[hsl(var(--primary))]">Notifications</h3><span className="rounded-full bg-[hsl(var(--accent)/.12)] px-2 py-1 text-[10px] font-bold text-[hsl(var(--accent))]">3 new</span></div>
              <div className="mt-3 space-y-3 text-xs"><button className="block w-full rounded-xl p-2 text-left transition-colors hover:bg-[hsl(var(--muted))]" onClick={() => { setNotifications(false); setLocation('/tracking/factory-licence'); }} data-testid="button-notification-query"><b>Query needs a response</b><br /><span className="text-[hsl(var(--muted-foreground))]">Factory Licence · due in 2 days</span></button><button className="block w-full rounded-xl p-2 text-left transition-colors hover:bg-[hsl(var(--muted))]" onClick={() => { setNotifications(false); setLocation('/tracking/factory-licence'); }} data-testid="button-notification-inspection"><b>Inspection scheduled</b><br /><span className="text-[hsl(var(--muted-foreground))]">Pollution Consent · 28 September</span></button><button className="block w-full rounded-xl p-2 text-left transition-colors hover:bg-[hsl(var(--muted))]" onClick={() => { setNotifications(false); setLocation('/roadmap'); }} data-testid="button-notification-fire"><b>Fire NOC approved</b><br /><span className="text-[hsl(var(--muted-foreground))]">Valid until 11 Sep 2029</span></button></div>
