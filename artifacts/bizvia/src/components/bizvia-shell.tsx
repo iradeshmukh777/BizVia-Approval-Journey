@@ -31,7 +31,7 @@ export function PublicNav() {
       <a href="#trust" className="transition-colors hover:text-[hsl(var(--primary))]" data-testid="link-trust">Why BizVia</a>
     </nav>
     <div className="flex items-center gap-2.5">
-      <button className="hidden rounded-xl px-3 py-2 text-sm font-bold text-[hsl(var(--primary))] transition-colors hover:bg-[hsl(var(--muted))] sm:block" onClick={() => setLocation('/login')} data-testid="button-public-login">Sign in</button>
+      <button className="rounded-xl border border-[hsl(var(--primary))] px-4 py-2 text-sm font-bold text-[hsl(var(--primary))] transition-colors hover:bg-[hsl(var(--muted))]" onClick={() => setLocation('/login')} data-testid="button-public-login">Login</button>
       <button className="rounded-xl bg-[hsl(var(--primary))] px-4 py-2.5 text-sm font-bold text-[hsl(var(--primary-foreground))] shadow-[0_8px_18px_hsl(var(--primary)/.18)] transition-all hover:-translate-y-0.5" onClick={() => setLocation('/login')} data-testid="button-public-start">Build my roadmap <ChevronRight className="ml-1 inline h-4 w-4" /></button>
     </div>
   </header>;
