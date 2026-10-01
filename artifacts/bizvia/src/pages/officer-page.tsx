@@ -10,6 +10,9 @@ export function OfficerPage() {
   const [query, setQuery] = useState<Query>(() => readLocal('query', DEMO_QUERY));
   const [selected, setSelected] = useState(APPLICATIONS[0].id);
   const [draft, setDraft] = useState('');
+  const [decision, setDecision] = useState(() => readLocal('decision', ''));
+  const approve = () => { saveLocal('decision', 'Approved'); setDecision('Approved'); };
+  const resetDemo = () => { localStorage.removeItem('bizvia:query'); localStorage.removeItem('bizvia:decision'); setQuery(DEMO_QUERY); setDecision(''); };
   const app = APPLICATIONS.find((item) => item.id === selected) || APPLICATIONS[0];
   const isFactory = app.id === 'BE-FAC-2026-001';
 
@@ -23,7 +26,7 @@ export function OfficerPage() {
     if (!draft.trim()) return;
     const next: Query = { status: 'Open', message: draft.trim(), dueInDays: 2 };
     saveLocal('query', next);
-    setQuery(next);
+    setQuery(next); saveLocal('decision', ''); setDecision('');
     setDraft('');
   };
 
@@ -57,7 +60,10 @@ export function OfficerPage() {
           <label className="mt-6 block text-sm font-bold text-[hsl(var(--primary))]">Raise a new query
             <textarea value={draft} onChange={(event) => setDraft(event.target.value)} rows={3} placeholder="e.g. Please confirm fire exit width in the storage area." className="mt-2 w-full resize-none rounded-xl border border-[hsl(var(--input))] bg-[hsl(var(--background))] p-3 text-sm outline-none focus:border-[hsl(var(--primary))]" />
           </label>
-          <button onClick={raiseQuery} disabled={!draft.trim()} className="mt-3 inline-flex items-center rounded-xl bg-[hsl(var(--primary))] px-4 py-2.5 text-sm font-bold text-[hsl(var(--primary-foreground))] disabled:opacity-50">Send query to business <Send className="ml-2 h-4 w-4" /></button>
+          <button onClick={raiseQuery} disabled={!draft.trim()} className="mt-3 inline-flex items-center rounded-xl bg-[hsl(var(--primary))] px-4 py-2.5 text-sm font-bold text-[hsl(var(--primary-foreground))] disabled:opacity-50">Send query to business <Send className="ml-2 h-4 w-4" /></button><div className="mt-6 flex flex-wrap items-center gap-3 border-t border-[hsl(var(--border))] pt-5">
+  <button onClick={approve} disabled={decision === 'Approved'} className="inline-flex items-center rounded-xl bg-[hsl(var(--chart-4))] px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60" data-testid="button-approve">{decision === 'Approved' ? '✓ Approved' : 'Approve Factory Licence'}</button>
+  <button onClick={resetDemo} className="text-xs font-bold text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))]">Reset demo</button>
+</div>
         </> : <p className="mt-6 rounded-xl bg-[hsl(var(--muted)/.6)] p-4 text-sm text-[hsl(var(--muted-foreground))]">No open queries on this application. Status: {app.status}.</p>}
       </section>
     </main>
