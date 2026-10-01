@@ -6,6 +6,8 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Redirect, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { Dashboard, Landing, Login, NotFound, Onboarding, Roadmap, Application, Tracking } from '@/pages/bizvia-pages';
 import { ApplicationPage } from '@/pages/application-page';
+import { OfficerPage } from '@/pages/officer-page';
+
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,7 @@ function Router() {
       <Route path="/tracking/factory-licence" component={Tracking} />
       <Route path="/tracking/BE-FAC-2026-001"><Redirect to="/tracking/factory-licence" /></Route>
       <Route path="/tracking/:id" component={Tracking} />
+      <Route path="/officer" component={OfficerPage} />
       <Route component={NotFound} />
     </Switch>
   </RoutedErrorBoundary>;
