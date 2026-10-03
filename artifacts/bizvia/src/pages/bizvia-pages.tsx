@@ -126,7 +126,6 @@ export function Login() {
       </div>
     </div>
   </div>;
-}
 
 export function Onboarding() {
   const [, setLocation] = useLocation();
