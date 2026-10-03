@@ -2,6 +2,7 @@ import { Bell, ChevronRight, ClipboardCheck, FileCheck2, Home, LogOut, Map, Menu
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { clearDemoSession, readDemoSession } from '@/lib/demo-auth';
+import { readLocal } from '@/lib/bizvia-data';
 
 type ShellProps = { children: React.ReactNode; title?: string; eyebrow?: string };
 
@@ -31,9 +32,8 @@ export function PublicNav() {
       <a href="#trust" className="transition-colors hover:text-[hsl(var(--primary))]" data-testid="link-trust">Why BizVia</a>
     </nav>
     <div className="flex items-center gap-2.5">
-      <button className="hidden rounded-xl px-3 py-2 text-sm font-bold text-[hsl(var(--primary))] transition-colors hover:bg-[hsl(var(--muted))] sm:block" onClick={() => setLocation('/login')} data-testid="button-public-login">Sign in</button>
-      <button className="rounded-xl border border-[hsl(var(--primary))] px-4 py-2 text-sm font-bold text-[hsl(var(--primary))] transition-colors hover:bg-[hsl(var(--muted))]" onClick={() => setLocation('/login')} data-testid="button-public-login">Login</button>
-      <button className="rounded-xl bg-[hsl(var(--primary))] px-4 py-2.5 text-sm font-bold text-[hsl(var(--primary-foreground))] shadow-[0_8px_18px_hsl(var(--primary)/.18)] transition-all hover:-translate-y-0.5" onClick={() => setLocation('/login')} data-testid="button-public-start">Build my roadmap <ChevronRight className="ml-1 inline h-4 w-4" /></button>
+      <button className="rounded-xl border border-[hsl(var(--primary))] px-4 py-2 text-sm font-bold text-[hsl(var(--primary))] transition-colors hover:bg-[hsl(var(--muted))]" onClick={() => setLocation('/login?mode=signin')} data-testid="button-public-login">Sign in</button>
+      <button className="rounded-xl bg-[hsl(var(--primary))] px-4 py-2.5 text-sm font-bold text-[hsl(var(--primary-foreground))] shadow-[0_8px_18px_hsl(var(--primary)/.18)] transition-all hover:-translate-y-0.5" onClick={() => setLocation('/login?mode=register')} data-testid="button-public-start">Login <ChevronRight className="ml-1 inline h-4 w-4" /></button>
     </div>
   </header>;
 }
@@ -43,6 +43,8 @@ export function AppShell({ children, title = 'Overview', eyebrow = 'Your busines
   const [notifications, setNotifications] = useState(false);
   const [location, setLocation] = useLocation();
   const session = readDemoSession();
+  const userName = session?.role === 'government-officer' ? '' : String(readLocal('user-name', '') || '');
+  const companyName = readLocal<{ companyName?: string }>('profile', {}).companyName || 'Acme Foods Pvt. Ltd.';
   return <div className="min-h-[100dvh] bg-[hsl(var(--background))]">
     <aside className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-[hsl(var(--sidebar))] px-4 py-5 text-[hsl(var(--sidebar-foreground))] transition-transform lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <div className="mb-9 flex items-center justify-between px-2">
@@ -51,7 +53,7 @@ export function AppShell({ children, title = 'Overview', eyebrow = 'Your busines
       </div>
       <div className="mb-5 px-3">
         <p className="eyebrow text-[hsl(var(--sidebar-foreground)/.55)]">Workspace</p>
-        <p className="mt-1 text-sm font-semibold">Acme Foods Pvt. Ltd.</p>
+        <p className="mt-1 text-sm font-semibold">{companyName}</p>
       </div>
       <nav className="space-y-1.5">
         {navItems.map((item) => {
@@ -80,8 +82,8 @@ export function AppShell({ children, title = 'Overview', eyebrow = 'Your busines
             <Bell className="h-[18px] w-[18px]" /><span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-[hsl(var(--accent))]" />
           </button>
           <div className="hidden h-8 w-px bg-[hsl(var(--border))] sm:block" />
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-[hsl(var(--secondary))] text-xs font-extrabold text-[hsl(var(--foreground))]">{session?.role === 'government-officer' ? 'GO' : 'AS'}</div>
-          <div className="hidden sm:block"><p className="text-xs font-bold text-[hsl(var(--primary))]">{session?.name || 'Aarav Shah'}</p><p className="text-[11px] text-[hsl(var(--muted-foreground))]">{session?.role === 'government-officer' ? 'Government Officer · Demo' : 'Founder'}</p></div>
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-[hsl(var(--secondary))] text-xs font-extrabold text-[hsl(var(--foreground))]">{session?.role === 'government-officer' ? 'GO' : (userName ? userName[0].toUpperCase() : 'U')}</div>
+          <div className="hidden sm:block"><p className="text-xs font-bold text-[hsl(var(--primary))]">{userName || session?.name || 'Guest'}</p><p className="text-[11px] text-[hsl(var(--muted-foreground))]">{session?.role === 'government-officer' ? 'Government Officer · Demo' : 'Founder'}</p></div>
           {session && <button className="rounded-xl p-2 text-[hsl(var(--muted-foreground))] transition-colors hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--primary))]" onClick={() => { clearDemoSession(); setLocation('/login'); }} aria-label="Sign out of demo session" title="Sign out" data-testid="button-sign-out"><LogOut className="h-4 w-4" /></button>}
           {notifications && <div className="absolute right-0 top-12 z-50 w-80 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-[0_18px_50px_hsl(var(--foreground)/.12)]">
             <div className="flex items-center justify-between"><h3 className="display text-sm font-extrabold text-[hsl(var(--primary))]">Notifications</h3><span className="rounded-full bg-[hsl(var(--accent)/.12)] px-2 py-1 text-[10px] font-bold text-[hsl(var(--accent))]">3 new</span></div>
