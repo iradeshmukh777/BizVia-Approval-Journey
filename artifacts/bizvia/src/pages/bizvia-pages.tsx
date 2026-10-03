@@ -81,53 +81,7 @@ export function Login() {
   };
   const switchMode = (mode: string) => window.location.assign(`/login?mode=${mode}`);
 
-  return <div className="grid min-h-[100dvh] lg:grid-cols-[.86fr_1.14fr]">
-    <div className="relative hidden overflow-hidden bg-[hsl(var(--primary))] p-10 text-[hsl(var(--primary-foreground))] lg:flex lg:flex-col">
-      <Logo inverse />
-      <div className="relative z-10 mt-auto max-w-md pb-8">
-        <p className="eyebrow text-[hsl(var(--secondary))]">The approval journey, made visible</p>
-        <h1 className="display mt-5 text-5xl font-extrabold leading-[1.02] tracking-[-.05em]">Good businesses deserve clear roads.</h1>
-        <p className="mt-6 leading-7 opacity-70">BizVia gives Indian entrepreneurs one calm place to move from business profile to operational readiness.</p>
-        <div className="mt-9 flex gap-5 text-xs opacity-70"><span>17 approvals mapped</span><span>•</span><span>1 living workspace</span></div>
-      </div>
-      <div className="absolute -right-28 top-24 h-80 w-80 rounded-full border-[40px] border-[hsl(var(--secondary)/.18)]" />
-      <div className="absolute -bottom-20 -left-20 h-80 w-80 rounded-full border border-[hsl(var(--secondary)/.25)]" />
-    </div>
-    <div className="flex items-center justify-center bg-[hsl(var(--background))] p-5 sm:p-10">
-      <div className="w-full max-w-md">
-        <div className="mb-10 lg:hidden"><Logo /></div>
-        <p className="eyebrow text-[hsl(var(--accent))]">{isSignIn ? 'Welcome back' : 'Get started'}</p>
-        <h2 className="display mt-3 text-3xl font-extrabold tracking-[-.04em] text-[hsl(var(--primary))]">{isSignIn ? 'Sign in to BizVia.' : 'Login to BizVia.'}</h2>
-        <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">{isSignIn ? 'Sign in to see your dashboard.' : 'Enter your details to set up your project and build your approval roadmap.'}</p>
-        <form className="mt-8 space-y-5" onSubmit={(event) => {
-          event.preventDefault();
-          const data = new FormData(event.currentTarget);
-          const get = (key: string) => { const value = data.get(key); return typeof value === 'string' ? value : undefined; };
-          if (isSignIn) enter('/dashboard', get('email'));
-          else enter('/onboarding', get('email'), get('name'), get('phone'), true);
-        }}>
-          {!isSignIn && <label className="block text-sm font-bold text-[hsl(var(--primary))]">Full name<input name="name" type="text" required placeholder="Your name" className={field} data-testid="input-signup-name" /></label>}
-          <label className="block text-sm font-bold text-[hsl(var(--primary))]">Work email<input name="email" type="email" required placeholder="you@company.com" className={field} data-testid="input-login-email" /></label>
-          {!isSignIn && <label className="block text-sm font-bold text-[hsl(var(--primary))]">Mobile number<input name="phone" type="tel" required pattern="[0-9]{10}" maxLength={10} placeholder="10-digit mobile number" className={field} data-testid="input-signup-phone" /></label>}
-          <label className="block text-sm font-bold text-[hsl(var(--primary))]">Password
-            <div className="relative mt-2">
-              <input type={showPassword ? 'text' : 'password'} required placeholder="Enter a password" className={`${field} !mt-0 pr-20`} data-testid="input-login-password" />
-              <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-[hsl(var(--muted-foreground))]" onClick={() => setShowPassword((value) => !value)} data-testid="button-toggle-password">{showPassword ? 'Hide' : 'Show'}</button>
-            </div>
-          </label>
-          <Button type="submit" className="w-full" data-testid="button-login-submit">{isSignIn ? 'Sign in' : 'Create account and continue'} <ArrowRight className="ml-2 h-4 w-4" /></Button>
-        </form>
-        <p className="mt-3 text-center text-[11px] text-[hsl(var(--muted-foreground))]" data-testid="text-demo-auth-note">Prototype only. Credentials are not verified or sent.</p>
-        <p className="mt-3 text-center text-xs text-[hsl(var(--muted-foreground))]">{isSignIn ? 'New here? ' : 'Already registered? '}<button type="button" className="font-bold text-[hsl(var(--primary))]" onClick={() => switchMode(isSignIn ? 'register' : 'signin')}>{isSignIn ? 'Create an account' : 'Sign in'}</button></p>
-        <div className="my-6 flex items-center gap-3 text-[11px] text-[hsl(var(--muted-foreground))]"><span className="h-px flex-1 bg-[hsl(var(--border))]" /> or choose a demo role <span className="h-px flex-1 bg-[hsl(var(--border))]" /></div>
-        <Button variant="secondary" className="w-full" onClick={() => enter('/onboarding', 'aarav@acmefoods.in', 'Aarav')} data-testid="button-demo-login"><Sparkles className="mr-2 h-4 w-4 text-[hsl(var(--accent))]" /> Enter business demo (Aarav)</Button>
-        <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-[hsl(var(--border))] px-4 py-3 text-sm font-bold text-[hsl(var(--primary))] transition-colors hover:bg-[hsl(var(--muted))]" onClick={() => { saveLocal('profile', DEMO_PROFILE); startDemoSession('government-officer'); setLocation('/officer'); }} data-testid="button-officer-preview"><ShieldCheck className="h-4 w-4 text-[hsl(var(--accent))]" /> Preview as a government officer <ArrowRight className="h-3 w-3" /></button>
-        <p className="mt-8 text-center text-[11px] leading-5 text-[hsl(var(--muted-foreground))]">By continuing, you agree to BizVia’s prototype terms. No real applications are submitted.</p>
-      </div>
-    </div>
-  </div>;
-}
-
+{
   return <div className="grid min-h-[100dvh] lg:grid-cols-[.86fr_1.14fr]">
     <div className="relative hidden overflow-hidden bg-[hsl(var(--primary))] p-10 text-[hsl(var(--primary-foreground))] lg:flex lg:flex-col">
       <Logo inverse />
