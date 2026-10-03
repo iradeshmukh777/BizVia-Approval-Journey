@@ -34,7 +34,7 @@ export function PublicNav() {
     <div className="flex items-center gap-2.5">
       <button className="rounded-xl border border-[hsl(var(--primary))] px-4 py-2 text-sm font-bold text-[hsl(var(--primary))] transition-colors hover:bg-[hsl(var(--muted))]" onClick={() => setLocation('/login?mode=signin')} data-testid="button-public-login">Sign in</button>
       <button className="rounded-xl bg-[hsl(var(--primary))] px-4 py-2.5 text-sm font-bold text-[hsl(var(--primary-foreground))] shadow-[0_8px_18px_hsl(var(--primary)/.18)] transition-all hover:-translate-y-0.5" onClick={() => setLocation('/login?mode=register')} data-testid="button-public-start">Login <ChevronRight className="ml-1 inline h-4 w-4" /></button>
-    </div>
+  </div>
   </header>;
 }
 
