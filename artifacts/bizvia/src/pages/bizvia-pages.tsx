@@ -81,7 +81,6 @@ export function Login() {
   };
   const switchMode = (mode: string) => window.location.assign(`/login?mode=${mode}`);
 
-{
   return <div className="grid min-h-[100dvh] lg:grid-cols-[.86fr_1.14fr]">
     <div className="relative hidden overflow-hidden bg-[hsl(var(--primary))] p-10 text-[hsl(var(--primary-foreground))] lg:flex lg:flex-col">
       <Logo inverse />
