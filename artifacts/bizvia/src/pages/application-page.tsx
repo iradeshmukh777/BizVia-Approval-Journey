@@ -70,8 +70,7 @@ export function ApplicationPage() {
     }, 180);
   };
 
-  return <AppShell title="Factory Licence" eyebrow="Application · BE-FAC-2026-001">
-    const validateFile = (file: File) => {
+  const validateFile = (file: File) => {
   if (validating || uploading) return;
   setNotice('');
   setPendingFile(file);
@@ -109,6 +108,9 @@ export function ApplicationPage() {
     }, 600 * (index + 1));
   });
 };
+
+return <AppShell title="Factory Licence" eyebrow="Application · BE-FAC-2026-001">
+  
     <div className="rise-in">
       <button className="mb-4 flex items-center text-xs font-bold text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))]" onClick={() => setLocation('/roadmap')} data-testid="button-application-back">
         <ChevronRight className="mr-1 h-3.5 w-3.5 rotate-180" /> Back to roadmap
